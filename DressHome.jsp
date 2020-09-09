@@ -115,8 +115,8 @@
     <div class="container">
         <div class="row">
             <!--Titles-->
-            <div class="title pb-5 col-12">
-                <h2 class="align-left mbr-fonts-style m-0 display-5">婚紗租借方案</h2>  
+            <div class="title pb-5 col-12 style="padding-left: 0px;  padding-right: 0px;"">
+                <h2 class="align-left mbr-fonts-style m-0 display-5 ">婚紗租借方案</h2>  
                 
 			<form class="form-inline d-flex flex-row-reverse md-form form-sm" method="post">
 		    <input type="search" class="light-table-filter" data-table="order-table" placeholder="請輸入方案關鍵字">
@@ -127,17 +127,28 @@
           	  <table class="order-table">
           	   <thead>
           	   	<tr>
-          	   		<th width="300">方案圖片</th>
+          	   		<th width="200">方案圖片</th>
+          	   		<th width="150">廠商名稱</th>
           	   		<th width="250">方案名稱</th>
           	   		<th width="120">方案價格</th>
-          	   		<th width="500">方案簡介</th>
+          	   		<th width="350">方案簡介</th>
           	   	</tr>
           	   	<tbody>
-               <c:forEach var="DressCaseVO" items="${list}">
+			<%@ include file="page1_dressHome.file"%>
+				
+			<c:forEach var="DressCaseVO" items="${list}">
 				 <c:if test="${DressCaseVO.drcase_st == 1}">
-					
-                      <tr>
-                        <td><img width="300" height="200" src="dress.do?drcase_id=${DressCaseVO.drcase_id}" alt="img_drcase"></td>
+			
+			 <tr>
+                        <td><img width="200" height="150" src="dress.do?drcase_id=${DressCaseVO.drcase_id}" alt="img_drcase"></td>
+                        <jsp:useBean id="venSvc" scope="page" class="com.vender.model.VenderService"></jsp:useBean>
+                        	<c:forEach var="venVO"  items="${venSvc.all}">
+                        		<c:if test="${venVO.vender_id eq DressCaseVO.vender_id }">
+                        		 	<td><p class="card-title mbr-fonts-style display-6">${venVO.ven_name}</p></td>
+                        		</c:if>
+                        		
+                        	</c:forEach>
+                       
                         <td><p class="card-title mbr-fonts-style display-6">${DressCaseVO.drcase_na}</p></td>
                         <td><p class="card-titlembr-text cost mbr-fonts-style display-5">${DressCaseVO.drcase_pr}</p></td>
                         <td>
@@ -154,10 +165,38 @@
 				    	</FORM>
 				    	</td>
 				    	</tr>
-           </c:if>	
-		</c:forEach>
-				</tbody>
+                     
+           		</c:if>	
+			</c:forEach>
+		</tbody>
 	</table>
+		
+	<nav class="blog-pagination justify-content-center d-flex">
+	<br>
+			<ul class="pagination">
+				<li class="page-item">
+					<%
+						if (rowsPerPage < rowNumber) {
+							if (pageIndex >= rowsPerPage) {%> 
+						<a href="<%=request.getRequestURI()%>?whichPage=<%=whichPage - 1%>"
+						class="page-link" aria-label="Previous"> 上一頁<i class="ti-angle-left"></i>
+						</a>
+				</li>
+					<%	}
+						for (int i = 1; i <= pageNumber; i++) {
+					%>
+				<li class="page-item"><a href="<%=request.getRequestURI()%>?whichPage=<%=whichPage = i%>"
+						class="page-link" id="<%=whichPage%>"><%=i%></a></li>
+					<%	}
+						if (pageIndex < pageIndexArray[pageNumber - 1]) {
+					%>
+					<li class="page-item"><a href="<%=request.getRequestURI()%>?whichPage=<%=whichPage + 1%>"
+						class="page-link" aria-label="Next">下一頁<i class="ti-angle-right"></i> </a></li>
+					<%	}
+					}
+					%>
+				</ul>
+	</nav>
 		</div>
 	</div>
 </section>
@@ -214,6 +253,7 @@
 				<tr></tr>
 				<tr>
 	             <td>
+			     <div class="mm">
 					<div class="card-img ">
 					<span class="mbr-iconfont mobi-mbri-cart-add mobi-mbri"></span>
 					</div>
@@ -223,19 +263,20 @@
 					<p class="mbr-section-text align-center mbr-fonts-style display-7">
 					價格以四天三夜為租期標準<br>同一廠商的方案可一起下訂</p>
 					</div>
+			     </div>
 	             </td>
              	  <td>
-				             	  
+			 	<div class="mm">             	  
 					<div class="card-img ">
 					<span class="mbr-iconfont mobi-mbri-login mobi-mbri"></span></div><div>
 					<h4 class="mbr-element-title align-center mbr-fonts-style pb-2 display-7">領取禮服</h4>
 					<p class="mbr-section-text align-center mbr-fonts-style display-7">請準時至婚紗工作室領取禮服<br>並與廠商做現場確認</p>
 					</div>
-             	  
+				</div>
 					</td>
 					
 	             <td>
-						         
+				<div class="mm">		         
 				<div class="card-img ">
 				<span class="mbr-iconfont mobi-mbri-logout mobi-mbri"></span>
 				</div><div>
@@ -243,6 +284,7 @@
 				歸還禮服</h4>
 				<p class="mbr-section-text align-center mbr-fonts-style display-7">使用完後請準時歸還或寄還禮服<br>請記得在訂單上確認已歸還</p>
 				</div>
+			     	</div>
 				</td>
              </tr>
         </table>
@@ -256,7 +298,6 @@
   		<div class="media-content align-left col-xs-3 col-sm-3 col-md-3 col-lg-3">
   			<h1 class="mbr-section-title mbr-black pb-3 mbr-fonts-style display-5">熱門廠商</h1>
                 <!-- 熱門廠商直接寫：V007：Diana手工婚紗 -->
-                <jsp:useBean id="venSvc" scope="page" class="com.vender.model.VenderService" />
                 	<c:forEach var="venVO" items="${venSvc.all}">
                 		<c:if test="${venVO.vender_id eq 'V007'}">${venVO.ven_name}
                 		<br>${venVO.ven_addr}<br>${venVO.ven_phone}</c:if>
@@ -271,9 +312,7 @@
           <div class="mbr-section-btn col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <div id="map"></div>
          </div>
-  		<div class="mbr-figure col-xs-5 col-sm-5 col-md-5 col-lg-5" style="width: 100%;"><iframe class="mbr-embedded-video" 
-  		src="https://www.youtube.com/embed/0jLK8hHirm8?rel=0&amp;amp;showinfo=0&amp;autoplay=1&amp;loop=1&amp;playlist=0jLK8hHirm8" 
-  		width="1280" height="720" frameborder="0" allowfullscreen id="vid"></iframe></div>
+  		<div class="mbr-figure col-xs-5 col-sm-5 col-md-5 col-lg-5" style="width: 100%;"></div>
   		</div>
   </div>
 </section>
