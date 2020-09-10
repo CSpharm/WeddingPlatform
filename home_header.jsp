@@ -108,6 +108,8 @@
             <a class="dropdown-item" href="<%=request.getContextPath()%>/membre/membre.do?action=logOut">登出</a>
           </div>
 </li>
+	    
+<a href="<%=request.getContextPath()%>/front_end/dresscase/Cart.jsp"><img style="width:70%; height:20px;" class="rounded" src="<%=request.getContextPath() %>/img/bag.svg"></a> 
     </c:if>	
     </ul>
   </nav> <!-- nav .// --> </li>
